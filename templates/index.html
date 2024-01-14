@@ -1,0 +1,183 @@
+<html>
+<head>
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            padding-top: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Task Manager</h1>
+        <button class="btn btn-primary mb-3" id="addTaskBtn">Create New Task</button>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Due Date & Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="taskList"></tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Task Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="taskId">
+                    <div class="form-group">
+                        <label for="taskTitle">Title</label>
+                        <input type="text" class="form-control" id="taskTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription">Description</label>
+                        <input type="text" class="form-control" id="taskDescription">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskPriority">Priority</label>
+                        <input type="text" class="form-control" id="taskPriority">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDueDateTime">Due Date & Time</label>
+                        <input type="text" class="form-control" id="taskDueDateTime">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveTaskBtn">Save Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/jquery-3.6.0.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+    <script>
+        const apiBaseUrl = 'http://localhost:8080';
+
+        function fetchTasks() {
+            $.ajax({
+                url: `${apiBaseUrl}/tasks`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#taskList').empty();
+                    data.forEach(function (task) {
+                        $('#taskList').append(`
+                            <tr>
+                                <td>${task.id}</td>
+                                <td>${task.title}</td>
+                                <td>${task.description}</td>
+                                <td>${task.priority}</td>
+                                <td>${task.due_date_time}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm editTaskBtn" data-id="${task.id}">Edit</button>
+                                    <button class="btn btn-danger btn-sm deleteTaskBtn" data-id="${task.id}">Delete</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                }
+            });
+        }
+
+        $('#taskList').on('click', '.editTaskBtn', function () {
+            const taskId = $(this).data('id');
+            $.ajax({
+                url: `${apiBaseUrl}/tasks/${taskId}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#taskId').val(data.id);
+                    $('#taskTitle').val(data.title);
+                    $('#taskDescription').val(data.description);
+                    $('#taskPriority').val(data.priority);
+                    $('#taskDueDateTime').val(data.due_date_time);
+                    $('#taskModal').modal('show');
+                }
+            });
+        });
+
+        $('#taskList').on('click', '.deleteTaskBtn', function () {
+            const taskId = $(this).data('id');
+            $.ajax({
+                url: `${apiBaseUrl}/tasks/${taskId}`,
+                method: 'DELETE',
+                success: function () {
+                    fetchTasks();
+                }
+            });
+        });
+
+        $('#addTaskBtn').on('click', function () {
+            $('#taskId').val('');
+            $('#taskTitle').val('');
+            $('#taskDescription').val('');
+            $('#taskPriority').val('');
+            $('#taskDueDateTime').val('');
+            $('#taskModal').modal('show');
+        });
+
+        $('#saveTaskBtn').on('click', function () {
+            const taskId = $('#taskId').val();
+            const taskTitle = $('#taskTitle').val();
+            const taskDescription = $('#taskDescription').val();
+            const taskPriority = $('#taskPriority').val();
+            const taskDueDateTime = $('#taskDueDateTime').val();
+            const taskData = {
+                title: taskTitle,
+                description: taskDescription,
+                priority: taskPriority,
+                due_date_time: taskDueDateTime
+            };
+
+            if (taskId) {
+                $.ajax({
+                    url: `${apiBaseUrl}/tasks/${taskId}`,
+                    method: 'PUT',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(taskData),
+                    success: function () {
+                        fetchTasks();
+                        $('#taskModal').modal('hide');
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: `${apiBaseUrl}/tasks`,
+                    method: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(taskData),
+                    success: function () {
+                        fetchTasks();
+                        $('#taskModal').modal('hide');
+                    }
+                });
+            }
+        });
+
+        fetchTasks();
+    </script>
+</body>
+</html>
