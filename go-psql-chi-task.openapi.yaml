@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: go-psql-chi-task
+  version: 1.0.0
+paths:
+  /tasks:
+    get:
+      summary: Get tasks
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                priority:
+                  type: string
+                due_date_time:
+                  type: string
+              required:
+                - title
+                - description
+                - priority
+                - due_date_time
+      responses:
+        '201':
+          description: Task created successfully
+  /tasks/{taskId}:
+    put:
+      summary: Edit a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                priority:
+                  type: string
+                due_date_time:
+                  type: string
+              required:
+                - title
+                - description
+                - priority
+                - due_date_time
+      responses:
+        '200':
+          description: Task updated successfully
+    delete:
+      summary: Delete a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Task deleted successfully
