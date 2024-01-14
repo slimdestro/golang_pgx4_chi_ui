@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "4b07dd6c-22e8-4422-8cdf-be93d6e4c78b",
+		"name": "go-psql-chi-task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26056671"
+	},
+	"item": [
+		{
+			"name": "Get tasks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/tasks",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Cajbjbjjhbjhbjbjbjll John at 09AM\",\r\n    \"description\": \"Second task\",\r\n    \"priority\": \"High\",\r\n    \"due_date_time\": \"2023-12-12T09:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/tasks/7",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"tasks",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 7,\r\n    \"title\": \"Call John at 09AM\",\r\n    \"description\": \"Second task\",\r\n    \"priority\": \"High\",\r\n    \"due_date_time\": \"2023-12-12T09:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/tasks/6",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"tasks",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete task",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/tasks/6",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"tasks",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
