@@ -16,5 +16,4 @@
 # Loom Shoot of solution developed...
 ## Loom shoot
 
-[![Watch the video](https://static-00.iconduck.com/assets.00/loom-icon-512x155-uq8gnrp3.png)]([https://www.loom.com/share/c02cf6d2b2694751af7caa4961165381?sid=0ea56c1b-bb60-45a2-b06a-a18fa883c034](https://www.loom.com/share/97534584073f43dab67d6cb8c6b0189d?sid=5a6d0d2c-07e9-48d3-ac6f-5109a5f92a06)https://www.loom.com/share/97534584073f43dab67d6cb8c6b0189d?sid=5a6d0d2c-07e9-48d3-ac6f-5109a5f92a06)
-
+[![Watch the video](https://static-00.iconduck.com/assets.00/loom-icon-512x155-uq8gnrp3.png)](https://www.loom.com/share/97534584073f43dab67d6cb8c6b0189d?sid=5a6d0d2c-07e9-48d3-ac6f-5109a5f92a06)
